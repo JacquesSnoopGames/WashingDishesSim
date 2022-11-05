@@ -6,36 +6,48 @@ public class MouseLook : MonoBehaviour
 {
     public float mouseSensitivity = 100f;
 
-    public Transform playerBody;
+    public Transform playerRigthArm;
 
     float xRotation = 0f;
     float yRotation = 0f;
+
     public Vector2 turn;
     public Vector3 deltaMove;
+
     public float speed = 1f;
+
+    public bool controlRightArm = false;
 
     // Start is called before the first frame update
     void Start()
     {
-        Cursor.lockState = CursorLockMode.Locked;
-        playerBody.transform.eulerAngles = new Vector3(0f,0f,0f);   
-         
-
-        
-        
+        controlRightArm = true;
+        Cursor.visible = false;
+        //playerRightArm.transform.eulerAngles = new Vector3(0f,0f,0f);   
+    
     }
 
     // Update is called once per frame
     void Update()
     {
-
-        turn.x += Input.GetAxis("Mouse X") * mouseSensitivity * Time.deltaTime;
-        turn.y = Input.GetAxis("Mouse Y") * mouseSensitivity * Time.deltaTime;
-        xRotation -= turn.y;
-        xRotation = Mathf.Clamp(xRotation, -90f, 90f);
+        if(controlRightArm == true)
+        {
+                turn.x += Input.GetAxis("Mouse X") * mouseSensitivity * Time.deltaTime;
+                turn.y = Input.GetAxis("Mouse Y") * mouseSensitivity * Time.deltaTime;
+                xRotation -= turn.y;
         
+                playerRigthArm.transform.localRotation = Quaternion.Euler(xRotation, turn.x, 0);
+                
+                //playerRigthArm.transform.localPosition = new Vector3(xRotation, turn.x, turn.y);
+        }
 
-        transform.localRotation = Quaternion.Euler(xRotation, turn.x, 0);
+        
+        /*if(controlLeftArm == true)
+        {
+
+        }*/
+        
+        
     
     }
 }
